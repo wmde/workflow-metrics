@@ -17,7 +17,14 @@ class TestGerritQueryParameterBuilder(unittest.TestCase):
         builder = GerritQueryParameterBuilder()
         builder.for_project('mediawiki/extensions/Wikibase')
 
-        self.assertEqual(builder.build_query_string(), 'project:mediawiki/extensions/Wikibase')
+        self.assertEqual(builder.build_query_string(), '(project:mediawiki/extensions/Wikibase)')
+
+    def test_given_multiple_projects_query_string_includes_all_projects_ored(self):
+        builder = GerritQueryParameterBuilder()
+        builder.for_project('mediawiki/extensions/Wikibase')
+        builder.for_project('mediawiki/core')
+
+        self.assertEqual(builder.build_query_string(), '(project:mediawiki/core OR project:mediawiki/extensions/Wikibase)')
 
     def test_given_branch_query_string_includes_branch(self):
         builder = GerritQueryParameterBuilder()
@@ -42,7 +49,7 @@ class TestGerritQueryParameterBuilder(unittest.TestCase):
         builder.only_merged()
         builder.for_project('mediawiki/extensions/Wikibase')
 
-        self.assertEqual(builder.build_query_string(), 'status:merged project:mediawiki/extensions/Wikibase')
+        self.assertEqual(builder.build_query_string(), 'status:merged (project:mediawiki/extensions/Wikibase)')
 
 if __name__ == '__main__':
     unittest.main()
