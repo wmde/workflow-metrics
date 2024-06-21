@@ -10,12 +10,13 @@ class GerritApiClient:
     USER_AGENT = 'WMDE Gerrit API Client'
     TRANSLATEWIKI_BOT_EMAIL = 'l10n-bot@translatewiki.net'
 
-    def get_changes_data(self, repository, since_date, only_master_branch=True, exclude_translatewiki_bot=True):
+    def get_changes_data(self, repositories, since_date, only_master_branch=True, exclude_translatewiki_bot=True):
         query_param_builder = GerritQueryParameterBuilder()
         options_param_builder = GerritOptionsParameterBuilder()
 
         query_param_builder.only_merged()
-        query_param_builder.for_project(repository)
+        for repository in repositories:
+            query_param_builder.for_project(repository)
         query_param_builder.after_timestamp(since_date)
 
         if only_master_branch:
