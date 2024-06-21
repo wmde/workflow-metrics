@@ -6,6 +6,7 @@ from gerrit_api.gerrit_options_parameter_builder import GerritOptionsParameterBu
 
 class GerritApiClient:
     CHANGES_URL_BASE = 'https://gerrit.wikimedia.org/r/changes/'
+    ACCOUNT_URL_BASE = 'https://gerrit.wikimedia.org/r/accounts/'
     CHANGES_LIMIT = 500
     USER_AGENT = 'WMDE Gerrit API Client'
     TRANSLATEWIKI_BOT_EMAIL = 'l10n-bot@translatewiki.net'
@@ -60,6 +61,28 @@ class GerritApiClient:
                 offset = offset + self.CHANGES_LIMIT
 
             result.extend(changes)
+
+        return result
+
+    def get_data_of_accounts(self, account_ids):
+        result = []
+
+        headers = {
+            'User-Agent': self.USER_AGENT
+        }
+
+        for account_id in account_ids:
+            url = self.ACCOUNT_URL_BASE + account_id
+
+            response = requests.get(url, headers=headers)
+            if response.status_code != 200:
+                continue
+
+            response_json = self.strip_gerrit_magic_prefix(response.text)
+
+            account_data = json.loads(response_json)
+
+            result.append(account_data)
 
         return result
 
