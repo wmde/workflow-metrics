@@ -28,7 +28,7 @@ output_filename = args.output
 
 gerrit_api_client = GerritApiClient()
 
-changes = gerrit_api_client.get_changes_data(gerrit_repositories, gerrit_since_date, True, True)
+changes = gerrit_api_client.get_changes_data(gerrit_repositories, gerrit_since_date, True, False)
 
 with open(output_filename, 'w', encoding='utf-8') as f:
     json.dump(changes, f, ensure_ascii=False)
