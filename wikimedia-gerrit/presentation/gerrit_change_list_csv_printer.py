@@ -1,11 +1,12 @@
 import csv
 import sys
+import os
 from gerrit_change.gerrit_change import GerritChange
 
 class GerritChangeListCsvPrinter:
     def print(self, changes):
         fieldnames = ['change_id', 'project', 'branch', 'status', 'subject', 'created_at', 'owner_id', 'submitted_at', 'phabricator_refs', 'revision_count', 'files_changed']
-        writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames)
+        writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames, lineterminator=os.linesep)
 
         writer.writeheader()
         for change in changes:
