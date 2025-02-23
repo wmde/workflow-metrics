@@ -2,7 +2,7 @@
 
 Create a container with python runtime and dependencies (packages), e.g.
 ```commandline
-docker built -t python-with-deps .
+docker build -t python-with-deps .
 ```
 
 Run the script in the container, e.g.
