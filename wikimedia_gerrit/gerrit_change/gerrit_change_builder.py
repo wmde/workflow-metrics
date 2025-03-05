@@ -1,4 +1,4 @@
-from gerrit_change.gerrit_change import GerritChange
+from wikimedia_gerrit.gerrit_change.gerrit_change import GerritChange
 
 class GerritChangeBuilder:
     def __init__(self):

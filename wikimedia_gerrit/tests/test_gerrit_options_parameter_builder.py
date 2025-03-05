@@ -1,6 +1,6 @@
 import unittest
 
-from gerrit_api.gerrit_options_parameter_builder import GerritOptionsParameterBuilder
+from wikimedia_gerrit.gerrit_api.gerrit_options_parameter_builder import GerritOptionsParameterBuilder
 
 class TestGerritOptionsParameterBuilder(unittest.TestCase):
     def test_given_no_options_returns_empty_object(self):

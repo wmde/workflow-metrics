@@ -1,6 +1,6 @@
 import unittest
 
-from gerrit_change.gerrit_change_builder import GerritChangeBuilder
+from wikimedia_gerrit.gerrit_change.gerrit_change_builder import GerritChangeBuilder
 
 class TestGerritChangeBuilder(unittest.TestCase):
 

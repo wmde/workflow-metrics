@@ -1,6 +1,6 @@
 import unittest
 
-from gerrit_api.gerrit_query_parameter_builder import GerritQueryParameterBuilder
+from wikimedia_gerrit.gerrit_api.gerrit_query_parameter_builder import GerritQueryParameterBuilder
 
 class TestGerritQueryParameterBuilder(unittest.TestCase):
     def test_given_no_input_returns_empty_string(self):

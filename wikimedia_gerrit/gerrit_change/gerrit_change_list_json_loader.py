@@ -1,5 +1,5 @@
 import json
-from gerrit_change.gerrit_change_builder import GerritChangeBuilder
+from wikimedia_gerrit.gerrit_change.gerrit_change_builder import GerritChangeBuilder
 
 class GerritChangeListJsonLoader:
     def load_change_data_from_json(self, json_string):

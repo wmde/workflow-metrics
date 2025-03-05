@@ -1,8 +1,8 @@
 import requests
 import json
 
-from gerrit_api.gerrit_query_parameter_builder import GerritQueryParameterBuilder
-from gerrit_api.gerrit_options_parameter_builder import GerritOptionsParameterBuilder
+from wikimedia_gerrit.gerrit_api.gerrit_query_parameter_builder import GerritQueryParameterBuilder
+from wikimedia_gerrit.gerrit_api.gerrit_options_parameter_builder import GerritOptionsParameterBuilder
 
 class GerritApiClient:
     CHANGES_URL_BASE = 'https://gerrit.wikimedia.org/r/changes/'
