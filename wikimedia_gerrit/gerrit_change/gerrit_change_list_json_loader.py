@@ -2,6 +2,9 @@ import json
 from wikimedia_gerrit.gerrit_change.gerrit_change_builder import GerritChangeBuilder
 
 class GerritChangeListJsonLoader:
+    def __init__(self, timestamp_converter):
+        self.timestamp_converter = timestamp_converter
+
     def load_change_data_from_json(self, json_string):
         changes = []
         changes_json = json.loads(json_string)
@@ -29,13 +32,13 @@ class GerritChangeListJsonLoader:
             change_builder.with_status(data['status'])
 
         if 'created' in data:
-            change_builder.with_created_at(data['created'])
+            change_builder.with_created_at(self.timestamp_converter.to_datetime(data['created']))
 
         if 'owner' in data:
             change_builder.with_owner_id(data['owner']['_account_id'])
 
         if 'submitted' in data:
-            change_builder.with_submitted_at(data['submitted'])
+            change_builder.with_submitted_at(self.timestamp_converter.to_datetime(data['submitted']))
 
         if 'submitter' in data:
             change_builder.with_submitter_id(data['submitter']['_account_id'])
