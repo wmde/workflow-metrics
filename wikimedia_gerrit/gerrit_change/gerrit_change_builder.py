@@ -34,6 +34,7 @@ class GerritChangeBuilder:
     def with_status(self, status):
         self.status = status
         return self
+
     def with_created_at(self, created_at):
         self.created_at = created_at
         return self
