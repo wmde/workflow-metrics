@@ -3,7 +3,7 @@ import os
 
 class ChangeCsvPrinter:
     def __init__(self, output_handle):
-        fieldnames = ['id', 'created_at', 'accepted_at', 'repository', 'vcs_system', 'lead_time_in_seconds']
+        fieldnames = ['id', 'created_at', 'accepted_at', 'repository', 'vcs_system', 'author_organisation', 'lead_time_in_seconds']
 
         self.csv_writer = csv.DictWriter(output_handle, fieldnames=fieldnames, lineterminator=os.linesep)
 
@@ -20,6 +20,7 @@ class ChangeCsvPrinter:
             'accepted_at': str(change.accepted_at or ''),
             'repository': str(change.repository or ''),
             'vcs_system': str(change.vcs_system or ''),
+            'author_organisation': str(change.author_organisation or ''),
             'lead_time_in_seconds': str(lead_time_in_seconds or '')
         }
 

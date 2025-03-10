@@ -2,6 +2,7 @@ import argparse
 import sys
 from change.change_factory import ChangeFactory
 from change.change_csv_printer import ChangeCsvPrinter
+from author.affiliation_mapper import AffiliationMapper
 from wikimedia_gerrit.gerrit_change.gerrit_change_list_json_loader import GerritChangeListJsonLoader
 from wikimedia_gerrit.gerrit_api.gerrit_timestamp_converter import GerritTimestampConverter
 from lead_time.lead_time_calculator import LeadTimeCalculator
@@ -13,7 +14,10 @@ args = arg_parser.parse_args()
 json_filename = args.json_filename
 
 json_loader = GerritChangeListJsonLoader(GerritTimestampConverter())
-change_factory = ChangeFactory()
+
+author_affiliation_mapper = AffiliationMapper('gerrit_account_data_annotated.csv')
+change_factory = ChangeFactory(author_affiliation_mapper)
+
 lead_time_calculator = LeadTimeCalculator()
 
 change_csv_printer = ChangeCsvPrinter(sys.stdout)
