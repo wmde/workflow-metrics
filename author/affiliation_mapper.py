@@ -16,6 +16,10 @@ class AffiliationMapper:
                 if not row['wikimedia_gerrit_account_id'] or not row['affiliation']:
                     continue
 
+                affiliation_data = {'organisation': row['affiliation']}
+                if row['affiliation_detailed']:
+                    affiliation_data['team'] = row['affiliation_detailed']
+
                 id = 'wikimedia-gerrit-' + row['wikimedia_gerrit_account_id']
 
                 if row['affiliation_start'] or row['affiliation_end']:
@@ -27,10 +31,10 @@ class AffiliationMapper:
                         end = datetime.strptime(row['affiliation_end'], '%Y-%m-%d')
                     if not id in self.affiliation_by_author_time_bound:
                         self.affiliation_by_author_time_bound[id] = []
-                    self.affiliation_by_author_time_bound[id].append({ 'from': start, 'until': end, 'affiliation': row['affiliation'] })
+                    self.affiliation_by_author_time_bound[id].append({ 'from': start, 'until': end, 'affiliation': affiliation_data })
                     continue
 
-                self.affiliation_by_author[id] = row['affiliation']
+                self.affiliation_by_author[id] = affiliation_data
 
     def get_affiliation_for_author(self, author_id, change_time):
         if author_id in self.affiliation_by_author_time_bound:
