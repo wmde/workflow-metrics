@@ -27,6 +27,10 @@ class WorkingHoursAwareLeadTimeCalculator(LeadTimeCalculator):
                 delta = accepted - created
                 return int(delta.total_seconds())
 
+            if created.time() < self.working_hours_start and accepted.time() < self.working_hours_start:
+                delta = accepted - created
+                return int(delta.total_seconds())
+
             return self.in_seconds(end_time_normalized) - self.in_seconds(start_time_normalized)
 
         business_days_in_between = max(0, np.busday_count(created.date(), accepted.date()) - 1)

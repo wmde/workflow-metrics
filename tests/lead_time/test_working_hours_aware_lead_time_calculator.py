@@ -105,6 +105,17 @@ class TestWorkingHoursAwareLeadTimeCalculator(unittest.TestCase):
 
         self.assertEqual(lead_time, self.express_in_seconds(hours=2))
 
+    def test_given_created_and_accepted_on_the_same_day_before_working_hours_get_lead_time_returns_simple_difference(self):
+        change = Change(
+            created_at=datetime.fromisoformat('2025-03-03T05:00:00'),  # Monday
+            accepted_at=datetime.fromisoformat('2025-03-03T07:00:00'),
+        )
+
+        lead_time_calculator = WorkingHoursAwareLeadTimeCalculator()
+        lead_time = lead_time_calculator.get_lead_time(change)
+
+        self.assertEqual(lead_time, self.express_in_seconds(hours=2))
+
     def test_given_created_and_accepted_on_different_days_created_outside_working_hours_get_lead_time_returns_adjusted_difference(self):
         change = Change(
             created_at=datetime.fromisoformat('2025-03-03T21:00:00'),  # Monday
