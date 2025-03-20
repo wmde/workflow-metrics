@@ -11,9 +11,11 @@ from lead_time.lead_time_calculator import LeadTimeCalculator
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('json_filename')
+arg_parser.add_argument('--no-header', action='store_true')
 args = arg_parser.parse_args()
 
 json_filename = args.json_filename
+no_header = args.no_header
 
 json_loader = GerritChangeListJsonLoader(GerritTimestampConverter())
 
@@ -25,7 +27,8 @@ business_days_aware_lead_time_calculate = BusinessDaysAwareLeadTimeCalculator()
 working_hours_aware_lead_time_calculator = WorkingHoursAwareLeadTimeCalculator()
 
 change_csv_printer = ChangeCsvPrinter(sys.stdout)
-change_csv_printer.print_header()
+if not no_header:
+    change_csv_printer.print_header()
 
 with open(json_filename) as file:
     for line in file:
