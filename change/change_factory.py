@@ -10,9 +10,13 @@ class ChangeFactory:
         author_org = ''
         author_team = ''
         affilitation_data = self.author_affiliation_mapper.get_affiliation_for_author(author_id, gerrit_change.submitted_at)
-        if 'organisation' in affilitation_data:
+
+        if not affilitation_data:
+            author_org = 'UNKNOWN:' + author_id
+        elif 'organisation' in affilitation_data:
             author_org = affilitation_data['organisation']
-        if 'team' in affilitation_data:
+
+        if affilitation_data and 'team' in affilitation_data:
             author_team = affilitation_data['team']
 
         change_info = {
