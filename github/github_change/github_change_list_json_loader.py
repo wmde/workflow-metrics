@@ -24,7 +24,7 @@ class GithubChangeListJsonLoader:
         if 'repository' in change_data and 'nameWithOwner' in change_data['repository']:
             change_builder.with_repository(change_data['repository']['nameWithOwner'])
 
-        if 'author' in change_data and 'login' in change_data['author']:
+        if 'author' in change_data and change_data['author'] is not None and  'login' in change_data['author']:
             change_builder.with_author_id(change_data['author']['login'])
 
         if 'createdAt' in change_data:
