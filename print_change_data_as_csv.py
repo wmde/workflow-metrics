@@ -13,11 +13,13 @@ from lead_time.lead_time_calculator import LeadTimeCalculator
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('json_filename')
+arg_parser.add_argument('-a', '--affiliation-data-filename', required=True)
 arg_parser.add_argument('--input-type', choices=['gerrit', 'github'], default='gerrit')
 arg_parser.add_argument('--no-header', action='store_true')
 args = arg_parser.parse_args()
 
 json_filename = args.json_filename
+affiliation_data_filename = args.affiliation_data_filename
 input_type = args.input_type
 no_header = args.no_header
 
@@ -27,7 +29,7 @@ if input_type == 'gerrit':
 elif input_type == 'github':
     json_loader = GithubChangeListJsonLoader(GithubTimestampConverter())
 
-author_affiliation_mapper = AffiliationMapper('gerrit_account_data_annotated.csv')
+author_affiliation_mapper = AffiliationMapper(affiliation_data_filename)
 change_factory = ChangeFactory(author_affiliation_mapper)
 
 lead_time_calculator = LeadTimeCalculator()
