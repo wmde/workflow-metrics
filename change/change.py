@@ -31,3 +31,11 @@ class Change:
             self.repository = kwargs['repository']
         if 'vcs_system' in kwargs:
             self.vcs_system = kwargs['vcs_system']
+
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        if isinstance(other, Change):
+            return self.id == other.id
+        return False
