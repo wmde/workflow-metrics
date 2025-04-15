@@ -36,7 +36,7 @@ class GerritQueryParameterBuilder:
         if self.projects:
             query_string = query_string + ' '
 
-            unique_projects = list(set(self.projects))
+            unique_projects = sorted(list(set(self.projects)))
             query_string = query_string + '(' + ' OR '.join(
                 map(lambda p: 'project:' + p, unique_projects)
             ) + ')'
