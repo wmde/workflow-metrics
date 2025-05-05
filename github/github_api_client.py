@@ -51,7 +51,10 @@ class GithubApiClient(object):
 
             changes = response['search']['nodes']
             should_fetch_next_batch = response['search']['pageInfo']['hasNextPage']
-            after_cursor = '"' + response['search']['pageInfo']['endCursor'] + '"'
+            if response['search']['pageInfo']['endCursor']:
+                after_cursor = '"' + response['search']['pageInfo']['endCursor'] + '"'
+            else:
+                after_cursor = 'null'
 
             result.extend(changes)
         return result
