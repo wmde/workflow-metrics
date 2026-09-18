@@ -5,6 +5,7 @@ class GerritQueryParameterBuilder:
         self.branches = []
         self.excluded_owners = []
         self.after = None
+        self.before = None
 
     def only_merged(self):
         self.status = 'merged'
@@ -24,6 +25,10 @@ class GerritQueryParameterBuilder:
 
     def after_timestamp(self, timestamp):
         self.after = timestamp
+        return self
+
+    def before_timestamp(self, timestamp):
+        self.before = timestamp
         return self
 
     def build_query_string(self):
@@ -60,5 +65,9 @@ class GerritQueryParameterBuilder:
         if self.after is not None:
             query_string = query_string + ' '
             query_string = query_string + 'after:' + self.after
+
+        if self.before is not None:
+            query_string = query_string + ' '
+            query_string = query_string + 'before:' + self.before
 
         return query_string.strip()

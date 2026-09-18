@@ -7,6 +7,7 @@ arg_parser = argparse.ArgumentParser(epilog='Either --repository or --repository
 arg_parser.add_argument('-r', '--repository', required=False)
 arg_parser.add_argument('-l', '--repository-list', required=False)
 arg_parser.add_argument('-s', '--since', required=True)
+arg_parser.add_argument('-u', '--until', required=False)
 arg_parser.add_argument('-o', '--output', required=True)
 
 args = arg_parser.parse_args()
@@ -24,11 +25,15 @@ else:
     sys.exit(2)
 
 gerrit_since_date = args.since
+gerrit_until_date = None
+if args.until:
+    gerrit_until_date = args.until
+
 output_filename = args.output
 
 gerrit_api_client = GerritApiClient()
 
-changes = gerrit_api_client.get_changes_data(gerrit_repositories, gerrit_since_date, True, False)
+changes = gerrit_api_client.get_changes_data(gerrit_repositories, gerrit_since_date, until_date=gerrit_until_date, only_master_branch=True, exclude_translatewiki_bot=False)
 
 with open(output_filename, 'w', encoding='utf-8') as f:
     json.dump(changes, f, ensure_ascii=False)

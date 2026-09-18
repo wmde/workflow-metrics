@@ -11,7 +11,7 @@ class GerritApiClient:
     USER_AGENT = 'WMDE Gerrit API Client'
     TRANSLATEWIKI_BOT_EMAIL = 'l10n-bot@translatewiki.net'
 
-    def get_changes_data(self, repositories, since_date, only_master_branch=True, exclude_translatewiki_bot=True):
+    def get_changes_data(self, repositories, since_date, until_date=None, only_master_branch=True, exclude_translatewiki_bot=True):
         query_param_builder = GerritQueryParameterBuilder()
         options_param_builder = GerritOptionsParameterBuilder()
 
@@ -25,6 +25,9 @@ class GerritApiClient:
 
         if exclude_translatewiki_bot:
             query_param_builder.excluding_owner(self.TRANSLATEWIKI_BOT_EMAIL)
+
+        if until_date is not None:
+            query_param_builder.before_timestamp(until_date)
 
         options_param_builder.include_comments()
         options_param_builder.include_filenames()
