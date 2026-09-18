@@ -1,4 +1,5 @@
 import json
+from json.decoder import JSONDecodeError
 from wikimedia_gerrit.gerrit_change.gerrit_change_builder import GerritChangeBuilder
 
 class GerritChangeListJsonLoader:
@@ -7,10 +8,14 @@ class GerritChangeListJsonLoader:
 
     def load_change_data_from_json(self, json_string):
         changes = []
-        changes_json = json.loads(json_string)
-        for change_data in changes_json:
-            change = self.parse_single_change_data(change_data)
-            changes.append(change)
+        try:
+            changes_json = json.loads(json_string)
+            for change_data in changes_json:
+                change = self.parse_single_change_data(change_data)
+                changes.append(change)
+        except JSONDecodeError as e:
+            pass
+
         return changes
 
     def parse_single_change_data(self, data):
