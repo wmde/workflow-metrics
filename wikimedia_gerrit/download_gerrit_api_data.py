@@ -1,5 +1,6 @@
 import json
 import argparse
+import os
 import sys
 from gerrit_api.gerrit_api_client import GerritApiClient
 
@@ -11,6 +12,11 @@ arg_parser.add_argument('-u', '--until', required=False)
 arg_parser.add_argument('-o', '--output', required=True)
 
 args = arg_parser.parse_args()
+
+user_agent = os.environ.get('USER_AGENT')
+if user_agent is None:
+    sys.stderr.write('USER_AGENT environment variable is not set')
+    sys.exit(1)
 
 gerrit_repositories = []
 if args.repository:
@@ -31,7 +37,7 @@ if args.until:
 
 output_filename = args.output
 
-gerrit_api_client = GerritApiClient()
+gerrit_api_client = GerritApiClient(user_agent)
 
 changes = gerrit_api_client.get_changes_data(gerrit_repositories, gerrit_since_date, until_date=gerrit_until_date, only_master_branch=True, exclude_translatewiki_bot=False)
 

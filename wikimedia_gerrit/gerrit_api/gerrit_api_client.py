@@ -1,5 +1,7 @@
 import requests
 import json
+import sys
+import time
 
 from wikimedia_gerrit.gerrit_api.gerrit_query_parameter_builder import GerritQueryParameterBuilder
 from wikimedia_gerrit.gerrit_api.gerrit_options_parameter_builder import GerritOptionsParameterBuilder
@@ -8,8 +10,10 @@ class GerritApiClient:
     CHANGES_URL_BASE = 'https://gerrit.wikimedia.org/r/changes/'
     ACCOUNT_URL_BASE = 'https://gerrit.wikimedia.org/r/accounts/'
     CHANGES_LIMIT = 500
-    USER_AGENT = 'WMDE Gerrit API Client'
     TRANSLATEWIKI_BOT_EMAIL = 'l10n-bot@translatewiki.net'
+
+    def __init__(self, user_agent):
+        self.user_agent = user_agent
 
     def get_changes_data(self, repositories, since_date, until_date=None, only_master_branch=True, exclude_translatewiki_bot=True):
         query_param_builder = GerritQueryParameterBuilder()
@@ -47,10 +51,15 @@ class GerritApiClient:
                 request_params['S'] = offset
 
             headers = {
-                'User-Agent': self.USER_AGENT
+                'User-Agent': self.user_agent
             }
 
             response = requests.get(self.CHANGES_URL_BASE, params=request_params, headers=headers)
+
+            if response.status_code == 403:
+                print('Too many request, waiting 30 seconds', file=sys.stderr)
+                time.sleep(30)
+                continue
 
             response_json = self.strip_gerrit_magic_prefix(response.text)
 
